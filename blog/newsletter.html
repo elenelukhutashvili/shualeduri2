@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter - Paulina</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header"><div class="container header-flex"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Paulina" class="avatar"><nav class="nav-links"><a href="index.html" class="nav-link">Home</a><a href="blog.html" class="nav-link">Blog</a><a href="newsletter.html" class="nav-link active">Newsletter</a></nav></div></header>
+
+    <main class="container" style="margin-top: 60px;">
+        <h1>Newsletter</h1>
+        <p style="color: var(--text-muted); margin-bottom: 32px;">Sign up for my newsletter to stay updated on new posts, coding tips, and tech insights.</p>
+
+        <form id="newsletterForm" novalidate>
+            <div class="form-group" id="emailGroup">
+                <label for="emailInput">Email Address</label>
+                <input type="email" id="emailInput" class="form-input" placeholder="email@example.com">
+                <div id="feedback" class="feedback-msg"></div>
+            </div>
+            <button type="submit" class="btn-primary">Stay updated</button>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('emailInput');
+            const emailGroup = document.getElementById('emailGroup');
+            const feedback = document.getElementById('feedback');
+            
+            const emailValue = emailInput.value.trim();
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+            // გასუფთავება
+            emailGroup.classList.remove('error', 'success');
+            feedback.className = 'feedback-msg';
+            feedback.innerHTML = '';
+
+            if (emailValue === "" || !emailPattern.test(emailValue)) {
+                // ფოტოს Error ქეისი
+                emailGroup.classList.add('error');
+                feedback.classList.add('error-text');
+                feedback.innerHTML = '⚠ Please enter a valid email address.';
+            } else {
+                // ფოტოს Success ქეისი
+                emailGroup.classList.add('success');
+                feedback.classList.add('success-text');
+                feedback.innerHTML = '✓ Thank you! Check your index for updates.';
+                emailInput.value = '';
+            }
+        });
+    </script>
+    <script src="main.js"></script>
+</body>
+</html>
