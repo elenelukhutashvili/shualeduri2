@@ -1,0 +1,349 @@
+:root {
+    --bg-color: #0f0f11;
+    --card-bg: #16161a;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --accent: #3b82f6;
+    --accent-hover: #60a5fa;
+    --border: #242427;
+    --input-bg: #1a1a1e;
+    
+    /* შეტყობინებების ფერები (Newsletter-ისთვის) */
+    --success-border: #16a34a;
+    --success-text: #22c55e;
+    --error-border: #dc2626;
+    --error-text: #ef4444;
+    
+    /* ქოლაუტების ფერები Formatting Guide-დან */
+    --callout-tip-bg: #14251c;
+    --callout-tip-border: #16a34a;
+    --callout-warning-bg: #2a2015;
+    --callout-warning-border: #d97706;
+    --callout-info-bg: #17223b;
+    --callout-info-border: #2563eb;
+}
+
+/* --- 2. ღია თემის ფერები (Light Mode - გადაირთვება JS-ით) --- */
+body.light-mode {
+    --bg-color: #ffffff;
+    --card-bg: #f9fafb;
+    --text-main: #111827;
+    --text-muted: #4b5563;
+    --border: #e5e7eb;
+    --input-bg: #f3f4f6;
+}
+
+/* --- 3. საბაზისო ნორმალიზაცია და გლუვი გადასვლა --- */
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.7;
+    padding-bottom: 60px;
+    /* გლუვი ანიმაცია თემის შეცვლისას */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; 
+}
+
+.container { 
+    max-width: 760px; 
+    margin: 0 auto; 
+    padding: 0 20px; 
+}
+
+/* --- 4. ჰედერი და ნავიგაცია --- */
+.main-header { 
+    padding: 24px 0; 
+    border-bottom: 1px solid var(--border); 
+    position: relative; 
+    transition: border-color 0.3s ease;
+}
+
+.header-flex { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.avatar { 
+    width: 40px; 
+    height: 40px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+}
+
+.nav-links { 
+    display: flex; 
+    gap: 24px; 
+    align-items: center; 
+}
+
+.nav-link { 
+    color: var(--text-muted); 
+    font-weight: 500; 
+    text-decoration: none; 
+    transition: color 0.2s; 
+}
+
+.nav-link:hover, .nav-link.active { 
+    color: var(--text-main); 
+}
+
+.theme-toggle { 
+    background: none; 
+    border: none; 
+    color: var(--text-main); 
+    cursor: pointer; 
+    font-size: 18px; 
+}
+
+.menu-toggle { 
+    display: none; 
+    background: none; 
+    border: none; 
+    color: var(--text-main); 
+    font-size: 24px; 
+    cursor: pointer; 
+}
+
+/* მობილური ჩამოსაშლელი მენიუ */
+.mobile-menu {
+    display: none; 
+    position: absolute; 
+    top: 100%; 
+    left: 20px; 
+    right: 20px;
+    background-color: var(--card-bg); 
+    border: 1px solid var(--border);
+    border-radius: 8px; 
+    padding: 8px 0; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); 
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.mobile-menu a { 
+    display: block; 
+    padding: 12px 20px; 
+    color: var(--text-main); 
+    text-decoration: none; 
+    border-bottom: 1px solid var(--border); 
+}
+
+.mobile-menu a:last-child { 
+    border-bottom: none; 
+}
+
+.mobile-menu.open { 
+    display: block; 
+}
+
+/* --- 5. ინტერაქციული მდგომარეობები (Hover & Focus Accessibility) --- */
+a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px dashed var(--accent); 
+    outline-offset: 4px;
+}
+
+/* --- 6. ტიპოგრაფია და ბლოგის ფორმატირება --- */
+h1, h2, h3, h4 { 
+    color: var(--text-main); 
+    margin-top: 32px; 
+    margin-bottom: 16px; 
+    font-weight: 700; 
+    transition: color 0.3s ease;
+}
+h1 { font-size: 32px; } 
+h2 { font-size: 24px; } 
+h3 { font-size: 20px; }
+p { margin-bottom: 20px; color: var(--text-main); opacity: 0.9; }
+
+/* სიები */
+ul, ol { 
+    margin-left: 24px; 
+    margin-bottom: 20px; 
+}
+li { 
+    margin-bottom: 8px; 
+}
+
+/* ციტატები (Blockquotes) */
+blockquote {
+    border-left: 4px solid var(--accent); 
+    padding-left: 20px;
+    font-style: italic; 
+    color: var(--text-muted); 
+    margin: 28px 0;
+}
+
+/* კოდის ელემენტები */
+code { 
+    background-color: var(--input-bg); 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+    font-family: monospace; 
+    font-size: 14px; 
+    color: #f43f5e; 
+    transition: background-color 0.3s ease;
+}
+pre { 
+    background-color: var(--input-bg); 
+    padding: 16px; 
+    border-radius: 8px; 
+    overflow-x: auto; 
+    margin: 20px 0; 
+    border: 1px solid var(--border); 
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+pre code { 
+    background: none; 
+    padding: 0; 
+    color: var(--text-main); 
+    font-size: 14px; 
+}
+
+/* ქოლაუტები (Callouts) */
+.callout { 
+    padding: 16px; 
+    border-radius: 8px; 
+    border-left: 4px solid; 
+    margin: 24px 0; 
+    transition: background-color 0.3s ease;
+}
+.callout-title { 
+    font-weight: 600; 
+    margin-bottom: 4px; 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+.callout.tip { background-color: var(--callout-tip-bg); border-color: var(--callout-tip-border); }
+.callout.warning { background-color: var(--callout-warning-bg); border-color: var(--callout-warning-border); }
+.callout.info { background-color: var(--callout-info-bg); border-color: var(--callout-info-border); }
+
+/* ცხრილები (Tables) */
+.table-wrapper { 
+    overflow-x: auto; 
+    margin: 24px 0; 
+}
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    text-align: left; 
+}
+th, td { 
+    padding: 12px 16px; 
+    border-bottom: 1px solid var(--border); 
+    transition: border-color 0.3s ease;
+}
+th { 
+    color: var(--text-main); 
+    font-weight: 600; 
+    background-color: var(--card-bg); 
+}
+td { 
+    color: var(--text-muted); 
+}
+
+/* მედია და სურათები */
+.blog-img { 
+    width: 100%; 
+    border-radius: 8px; 
+    margin: 24px 0 8px 0; 
+}
+.img-caption { 
+    text-align: center; 
+    font-size: 14px; 
+    color: var(--text-muted); 
+    margin-bottom: 24px; 
+}
+
+/* --- 7. ფორმები და ვალიდაციის სტატუსები (Newsletter) --- */
+.form-group { 
+    margin-bottom: 24px; 
+}
+.form-group label { 
+    display: block; 
+    margin-bottom: 8px; 
+    font-size: 14px; 
+    color: var(--text-muted); 
+}
+.form-input {
+    width: 100%; 
+    padding: 12px 16px; 
+    background-color: var(--input-bg);
+    border: 1px solid var(--border); 
+    border-radius: 6px; 
+    color: var(--text-main);
+    font-size: 16px; 
+    transition: border-color 0.2s, background-color 0.3s;
+}
+.form-input:focus { 
+    border-color: var(--accent); 
+    outline: none; 
+}
+.btn-primary {
+    background-color: #2563eb; 
+    color: white; 
+    padding: 12px 24px;
+    border-radius: 6px; 
+    border: none; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: background 0.2s;
+}
+.btn-primary:hover { 
+    background-color: #1d4ed8; 
+}
+
+/* ვალიდაციის კლასები (JS-ისთვის) */
+.form-group.success .form-input { border-color: var(--success-border); }
+.form-group.error .form-input { border-color: var(--error-border); }
+.feedback-msg { margin-top: 8px; font-size: 14px; font-weight: 500; }
+.success-text { color: var(--success-text); }
+.error-text { color: var(--error-text); }
+
+/* --- 8. ფუტერი --- */
+.main-footer { 
+    margin-top: 60px; 
+    padding-top: 24px; 
+    border-top: 1px solid var(--border); 
+    display: flex; 
+    justify-content: space-between; 
+    color: var(--text-muted); 
+    font-size: 14px; 
+    transition: border-color 0.3s ease;
+}
+.social-links a { 
+    color: var(--text-muted); 
+    margin-left: 12px; 
+    text-decoration: none; 
+}
+.social-links a:hover { 
+    color: var(--text-main); 
+}
+
+/* --- 9. მედია ქუერები (Responsive - ტაბლეტი და მობილური) --- */
+@media (max-width: 768px) {
+    .nav-links { 
+        display: none; 
+    }
+    .menu-toggle { 
+        display: block; 
+    }
+}

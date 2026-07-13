@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+const { program } = require('commander');
+const chalk = require('chalk');
+
+program
+    .name('weather-cli')
+    .argument('<cityName>', 'ქალაქის სახელი')
+    .action((cityName) => {
+        const apiKey = '895284fb2d2c50a520ea537456963d9c';
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${apiKey}`;
+        fetch(url)
+            .then(res => {
+                if (!res.ok) throw new Error();
+                return res.json();
+            })
+            .then(data => {
+                console.log(chalk.blue.bold(`\nამინდი: ${data.name}`));
+                console.log(chalk.yellow(`ტემპერატურა: ${data.main.temp}°C`));
+                console.log(chalk.magenta(`აღწერა: ${data.weather[0].description}\n`));
+            })
+            .catch(() => console.log(chalk.red(`\n ქალაქი "${cityName}" ვერ მოიძებნა.\n`)));
+    });
+program.parse(process.argv);

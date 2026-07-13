@@ -1,0 +1,109 @@
+[
+  { "id": 1, "name": "Khvicha Kvaratskhelia", "nation": "georgia" },
+  { "id": 2, "name": "Giorgi Mamardashvili", "nation": "georgia" },
+  { "id": 3, "name": "Jamal Musiala", "nation": "germany" }
+]
+const http = require('http');
+const fs = require('fs');
+const url = require('url');
+
+const PORT = 3000;
+const FILE_NAME = 'players.json';
+
+// დამხმარე ფუნქციები ფაილის წასაკითხად და ჩასაწერად
+const readPlayers = () => JSON.parse(fs.readFileSync(FILE_NAME, 'utf-8'));
+const savePlayers = (data) => fs.writeFileSync(FILE_NAME, JSON.stringify(data, null, 2), 'utf-8');
+
+const server = http.createServer((req, res) => {
+    // ვარჩევთ URL-ს და Query პარამეტრებს (?nation=georgia)
+    const parsedUrl = url.parse(req.url, true);
+    const pathname = parsedUrl.pathname;
+    const method = req.method;
+
+    // 1. GET /about
+    if (pathname === '/about' && method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        const aboutInfo = {
+            name: "ნიკა",
+            lastname: "ტაბატაძე",
+            hobby: "კოდინგი, ფეხბურთი"
+        };
+        return res.end(JSON.stringify(aboutInfo));
+    }
+
+    // 2. GET /players და GET /players?nation=...
+    if (pathname === '/players' && method === 'GET') {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        const players = readPlayers();
+        const nationQuery = parsedUrl.query.nation;
+
+        if (nationQuery) {
+            // თუ გადმოცემულია ფილტრი, ვფილტრავთ ეროვნების მიხედვით
+            const filtered = players.filter(p => p.nation.toLowerCase() === nationQuery.toLowerCase());
+            return res.end(JSON.stringify(filtered));
+        }
+
+        // თუ ფილტრი არაა, ვაბრუნებთ ყველას
+        return res.end(JSON.stringify(players));
+    }
+
+    // 3. POST /players (ახალი ფეხბურთელის დამატება ვალიდაციით)
+    if (pathname === '/players' && method === 'POST') {
+        let body = '';
+        req.on('data', chunk => { body += chunk.toString(); });
+        
+        req.on('end', () => {
+            try {
+                const newPlayer = JSON.parse(body);
+                
+                // ვალიდაცია: ვამოწმებთ ყველა საჭირო ველს
+                if (!newPlayer.name || !newPlayer.nation) {
+                    res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+                    return res.end(JSON.stringify({ error: "❌ name და nation სავალდებულო ველებია!" }));
+                }
+
+                const players = readPlayers();
+                // ავტომატური ID-ის მინიჭება
+                newPlayer.id = players.length > 0 ? players[players.length - 1].id + 1 : 1;
+                
+                players.push(newPlayer);
+                savePlayers(players);
+
+                res.writeHead(201, { 'Content-Type': 'application/json; charset=utf-8' });
+                res.end(JSON.stringify({ message: "✅ ფეხბურთელი წარმატებით დაემატა!", player: newPlayer }));
+            } catch (e) {
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: "არასწორი JSON ფორმატი" }));
+            }
+        });
+        return;
+    }
+
+    // 4. DELETE /players/:id (ფეხბურთელის წაშლა)
+    if (pathname.startsWith('/players/') && method === 'DELETE') {
+        // ამოვიღებთ ID-ს URL-იდან (მაგ: /players/1 -> 1)
+        const idToExtract = pathname.split('/')[2];
+        const playerId = parseInt(idToExtract);
+
+        const players = readPlayers();
+        const initialLength = players.length;
+        const filteredPlayers = players.filter(p => p.id !== playerId);
+
+        if (filteredPlayers.length === initialLength) {
+            res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+            return res.end(JSON.stringify({ error: "❌ ფეხბურთელი ამ ID-ით ვერ მოიძებნა!" }));
+        }
+
+        savePlayers(filteredPlayers);
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ message: `🗑️ ფეხბურთელი ID-ით ${playerId} წაიშალა.` }));
+    }
+
+    // თუ არცერთ როუტს არ დაემთხვა
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: "Route not found" }));
+});
+
+server.listen(PORT, () => {
+    console.log(`🚀 სერვერი ჩაირთო პორტზე: http://localhost:${PORT}`);
+});

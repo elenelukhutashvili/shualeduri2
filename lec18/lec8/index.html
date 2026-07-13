@@ -1,0 +1,94 @@
+// 1. 
+function debounce(func, delay) {
+    let timeoutId;
+    return function (...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+const logMousePosition = (e) => {
+    console.log("მაუსი გაჩერდა კოორდინატებზე:", e.clientX, e.clientY);
+};
+
+window.addEventListener('mousemove', debounce(logMousePosition, 300));
+
+// 2.
+const quoteBtn = document.getElementById('quote-btn');
+const quoteContainer = document.getElementById('quote-container');
+if (quoteBtn && quoteContainer) {
+    quoteBtn.addEventListener('click', () => {
+        fetch('https://dummyjson.com/quotes')
+            .then(response => response.json())
+            .then(data => {
+                const quotesArray = data.quotes;
+                const randomIndex = Math.floor(Math.random() * quotesArray.length);
+                const randomQuote = quotesArray[randomIndex];
+                quoteContainer.innerHTML = `
+                    <p>"${randomQuote.quote}"</p>
+                    <strong>- ${randomQuote.author}</strong>
+                `;
+            })
+            .catch(error => console.error('შეცდომა ციტატის წამოღებისას:', error));
+    });
+}
+
+// 3.
+function fetchUsers(page = 1) {
+    const limit = 30;
+    const skip = (page - 1) * limit;
+    const url = `https://dummyjson.com/users?limit=${limit}&skip=${skip}`;
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            console.log(`--- გვერდი ${page} ---`);
+            console.log("მომხმარებლები:", data.users);
+            const totalPages = Math.ceil(data.total / limit);
+            console.log(`სულ გვერდების რაოდენობა ბექენდზე: ${totalPages}`);
+        })
+        .catch(error => console.error('შეცდომა იუზერების წამოღებისას:', error));
+}
+fetchUsers(1);
+
+
+//4
+const carInput = document.getElementById('car-id-input');
+const searchCarBtn = document.getElementById('search-car-btn');
+const carContainer = document.getElementById('car-container');
+if (searchCarBtn && carInput && carContainer) {
+    searchCarBtn.addEventListener('click', () => {
+        const carId = carInput.value;
+        if (!carId) {
+            alert("გთხოვთ, ჯერ შეიყვანოთ მანქანის ID!");
+            return;
+        }
+        fetch(`https://myfakeapi.com/api/cars/${carId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("მანქანა ვერ მოიძებნა");
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (!data.car) {
+                    throw new Error("მანქანა ვერ მოიძებნა");
+                }
+                const car = data.car;
+                carContainer.innerHTML = `
+                    <div style="margin-top: 15px; padding: 10px; border: 1px solid #ccc; width: fit-content;">
+                        <h3>მანქანის ინფორმაცია:</h3>
+                        <p><strong>ბრენდი:</strong> ${car.car}</p>
+                        <p><strong>მოდელი:</strong> ${car.car_model}</p>
+                        <p><strong>ფასი:</strong> ${car.price}</p>
+                    </div>
+                `;
+            })
+            .catch(error => {
+                alert("შეცდომა: გთხოვთ შეიყვანოთ სწორი ID!");
+                carContainer.innerHTML = "";
+                console.error(error);
+            });
+    });
+}

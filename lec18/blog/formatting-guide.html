@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Formatting Guide</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="main-header"><div class="container header-flex"><img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Paulina" class="avatar"><nav class="nav-links"><a href="index.html" class="nav-link">Home</a><a href="blog.html" class="nav-link active">Blog</a></nav></div></header>
+
+    <main class="container" style="margin-top: 40px;">
+        <h1>Comprehensive Formatting Guide for Blog Content</h1>
+        <p style="color: var(--text-muted);">Published January 15, 2025</p>
+
+        <h2>Inline Code & Code Blocks</h2>
+        <p>Include small code snippets directly within your text, like using the <code>display: flex;</code> property.</p>
+
+        <pre><code>&lt;div class="user-card"&gt;
+  &lt;h3&gt;Paulina&lt;/h3&gt;
+  &lt;p&gt;Developer&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+        <h2>Callouts</h2>
+        
+        <div class="callout tip">
+            <div class="callout-title">💡 Tip: Start Small</div>
+            <p>Begin your journey with smaller projects to build confidence and gradually take on bigger challenges.</p>
+        </div>
+
+        <div class="callout warning">
+            <div class="callout-title">⚠ Warning: Avoid Inline Styles</div>
+            <p>Using inline styles makes your code harder to maintain. Stick to CSS files or modern styling libraries.</p>
+        </div>
+
+        <div class="callout info">
+            <div class="callout-title">ℹ Information: Keyboard Accessibility</div>
+            <p>Ensure all interactive elements are accessible via keyboard navigation to improve inclusivity.</p>
+        </div>
+
+        <h2>Images and Diagrams</h2>
+        <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=800" alt="Coding Setup" class="blog-img">
+        <div class="img-caption">Caption: A software developer programming with three monitors.</div>
+
+        <h2>Tables</h2>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Language</th>
+                        <th>Purpose</th>
+                        <th>Difficulty</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>HTML</td>
+                        <td>Structure</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td>CSS</td>
+                        <td>Styling</td>
+                        <td>Medium</td>
+                    </tr>
+                    <tr>
+                        <td>JavaScript</td>
+                        <td>Interactivity</td>
+                        <td>Advanced</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>
